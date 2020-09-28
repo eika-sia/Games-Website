@@ -2,18 +2,20 @@ let canvas, ctx;
 let playerLeft, playerRight, ball;
 const GAME_SPEED = 75;
 let lastRenderTime = 0;
+let direction = { x: 1, y: 0 };
+let keyMap = [];
 
 function init() {
   canvas = document.getElementById("gameBoard");
   ctx = canvas.getContext("2d");
 
-  playerLeft = new Rectangle(10, 50, 10, 30, "white");
+  playerLeft = new Rectangle(10, 50, 10, 30, "white", 0);
   playerLeft.draw();
 
   ball = new Circle(150, 65, 2, "white", "white", 0);
   ball.draw();
 
-  playerRight = new Rectangle(280, 50, 10, 30, "white");
+  playerRight = new Rectangle(280, 50, 10, 30, "white", 0);
   playerRight.draw();
 
   gameLoop();
@@ -30,7 +32,8 @@ function gameLoop(currentTime) {
 }
 
 function update() {
-  let direction = { x: 1, y: 0 };
+  move();
+
   ctx.clearRect(0, 0, 300, 150);
 
   playerLeft.draw();
@@ -38,10 +41,70 @@ function update() {
 
   ball.x += direction.x;
   ball.y += direction.y;
+
+  if (
+    RectCircleColliding(ball, playerRight) ||
+    RectCircleColliding(ball, playerLeft)
+  ) {
+    if (direction.x == 0) {
+      direction.x = 0;
+    } else if (direction.x == 1) {
+      direction.x = -1;
+    } else if (direction.x == -1) {
+      direction.x = 1;
+    }
+
+    if (direction.y == 0) {
+      direction.y = 0;
+    } else if (direction.y == 1) {
+      direction.y = -1;
+    } else if (direction.y == -1) {
+      direction.y = 1;
+    }
+
+    ball.x += direction.x * 2;
+    ball.y += direction.y * 2;
+  }
+
   ball.draw();
 
-  console.log(RectCircleColliding(ball, playerRight));
+  //console.log(RectCircleColliding(ball, playerRight));
 }
+
+function move() {
+  // S 83, W 87, arrowDown 40,  arrowUp 38
+  if(keyMap['s']) {
+    playerLeft.y += 1;
+    if (playerLeft.y+playerLeft.height > canvas.height) {
+      playerLeft.y -= 1;
+    }
+  }
+  if(keyMap['w']) {
+    playerLeft.y -= 1;
+    if (playerLeft.y < 0) {
+      playerLeft.y += 1;
+    }
+  }
+  if (keyMap['ArrowUp']) {
+    playerRight.y -= 1;
+    if (playerRight.y < 0) {
+      playerRight.y += 1;
+    }
+  }
+  if (keyMap['ArrowDown']) {
+    playerRight.y += 1;
+    if (playerRight.y+playerRight.height > canvas.height) {
+      playerRight.y -= 1;
+    }
+  }
+}
+
+document.addEventListener('keydown', (event) => {
+  keyMap[event.key] = true;
+});
+document.addEventListener('keyup', (event) => {
+  delete keyMap[event.key];
+});
 
 function RectCircleColliding(circle, rect) {
   var distX = Math.abs(circle.x - rect.x - rect.width / 2);
