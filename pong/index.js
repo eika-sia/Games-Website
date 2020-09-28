@@ -2,8 +2,10 @@ let canvas, ctx;
 let playerLeft, playerRight, ball;
 const GAME_SPEED = 75;
 let lastRenderTime = 0;
-let direction = { x: 1, y: 0 };
+let direction = { x: 1, y: 2 };
 let keyMap = [];
+let ScoreLeft = 0,
+  ScoreRight = 0;
 
 function init() {
   canvas = document.getElementById("gameBoard");
@@ -39,6 +41,8 @@ function update() {
   playerLeft.draw();
   playerRight.draw();
 
+  drawUtil();
+
   ball.x += direction.x;
   ball.y += direction.y;
 
@@ -46,63 +50,73 @@ function update() {
     RectCircleColliding(ball, playerRight) ||
     RectCircleColliding(ball, playerLeft)
   ) {
-    if (direction.x == 0) {
-      direction.x = 0;
-    } else if (direction.x == 1) {
-      direction.x = -1;
-    } else if (direction.x == -1) {
-      direction.x = 1;
-    }
+    direction.x = direction.x * -1;
 
-    if (direction.y == 0) {
-      direction.y = 0;
-    } else if (direction.y == 1) {
-      direction.y = -1;
-    } else if (direction.y == -1) {
-      direction.y = 1;
-    }
+    ball.x += direction.x * 2;
+    ball.y += direction.y * 2;
+  } else if (ball.y + ball.r < 0 || ball.y + ball.r > canvas.height) {
+    direction.y = direction.y * -1;
 
     ball.x += direction.x * 2;
     ball.y += direction.y * 2;
   }
 
-  ball.draw();
+  if (ball.x + ball.r < 0 || ball.x + ball.r > canvas.width) {
+    alert("One Point");
 
+    ball.x = canvas.width/2;
+    ball.y = canvas.height/2;
+  }
+
+  ball.draw();
   //console.log(RectCircleColliding(ball, playerRight));
+}
+
+function drawUtil() {
+  ctx.restore();
+
+  ctx.setLineDash([5, 3]);
+  ctx.strokeStyle = "white"; /*dashes are 5px and spaces are 3px*/
+  ctx.beginPath();
+  ctx.moveTo(canvas.width / 2, 0);
+  ctx.lineTo(canvas.height, canvas.width / 2);
+  ctx.stroke();
+
+  ctx.restore();
 }
 
 function move() {
   // S 83, W 87, arrowDown 40,  arrowUp 38
-  if(keyMap['s']) {
-    playerLeft.y += 1;
-    if (playerLeft.y+playerLeft.height > canvas.height) {
-      playerLeft.y -= 1;
+  if (keyMap["s"]) {
+    playerLeft.y += 3;
+    if (playerLeft.y + playerLeft.height > canvas.height) {
+      playerLeft.y -= 3;
     }
   }
-  if(keyMap['w']) {
-    playerLeft.y -= 1;
+  if (keyMap["w"]) {
+    playerLeft.y -= 3;
     if (playerLeft.y < 0) {
-      playerLeft.y += 1;
+      playerLeft.y += 3;
     }
   }
-  if (keyMap['ArrowUp']) {
-    playerRight.y -= 1;
+  if (keyMap["ArrowUp"]) {
+    playerRight.y -= 3;
     if (playerRight.y < 0) {
-      playerRight.y += 1;
+      playerRight.y += 3;
     }
   }
-  if (keyMap['ArrowDown']) {
-    playerRight.y += 1;
-    if (playerRight.y+playerRight.height > canvas.height) {
-      playerRight.y -= 1;
+  if (keyMap["ArrowDown"]) {
+    playerRight.y += 3;
+    if (playerRight.y + playerRight.height > canvas.height) {
+      playerRight.y -= 3;
     }
   }
 }
 
-document.addEventListener('keydown', (event) => {
+document.addEventListener("keydown", (event) => {
   keyMap[event.key] = true;
 });
-document.addEventListener('keyup', (event) => {
+document.addEventListener("keyup", (event) => {
   delete keyMap[event.key];
 });
 
@@ -138,7 +152,7 @@ class Rectangle {
     width = 0,
     height = 0,
     fillColor = "",
-    strokeColor = "",
+    strokeColor = "black",
     strokeWidth = 2
   ) {
     this.x = Number(x);
@@ -174,13 +188,13 @@ class Rectangle {
     // destructuring
     const { x, y, width, height, fillColor, strokeColor, strokeWidth } = this;
 
-    ctx.save();
-
+    //ctx.save();
+    ctx.setLineDash([1, 0]);
     ctx.fillStyle = fillColor;
     ctx.lineWidth = strokeWidth;
 
     ctx.beginPath();
-    ctx.strokeStyle = strokeColor;
+    ctx.strokeStyle = "black";
     ctx.rect(x, y, width, height);
 
     ctx.fill();
