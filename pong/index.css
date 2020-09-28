@@ -1,0 +1,20 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background-color: black;
+  overflow: hidden;
+}
+
+#gameBoard {
+  position: center;
+  background-color: #000000;
+  width: 95vmin;
+  height: 95vmin;
+  border-color: orange;
+  border-style: solid;
+  border-width: 10px;
+}

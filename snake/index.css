@@ -33,12 +33,11 @@ body {
 }
 
 #Title {
+  font-size: 5vmin;
+  margin: 0%;
   color: black;
   position: absolute;
-  top: 30px;
-  left: 50%;
-  right: 50%;
+  margin-bottom: 90vmin;
   width: fit-content;
-  margin: 0%;
   height: fit-content;
 }
