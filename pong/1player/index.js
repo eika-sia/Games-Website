@@ -33,7 +33,8 @@ function init() {
   playerRight.draw();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  bot = new Bot(playerRight.height, playerRight.x, playerRight.y);
+  bot = new Bot(playerRight);
+
   bot.decideMovement();
   setTimeout(function () {
     clearInterval(intevalCountDown);
@@ -100,10 +101,24 @@ function update() {
 }
 
 class Bot {
-  constructor(height, x, y) {
-    this.height = height;
-    this.x = x;
-    this.y = y;
+  constructor(side) {
+    this.keyMap = [];
+    this.side = side;
+  }
+
+  move() {
+    if (this.keyMap["BotMoveUp"]) {
+      this.side.y -= 3;
+      if (this.side.y < 0) {
+        this.side.y += 3;
+      }
+    }
+    if (this.keyMap["BotMoveDown"]) {
+      this.side.y += 3;
+      if (this.side.y + this.side.height > canvas.height) {
+        this.side.y -= 3;
+      }
+    }
   }
 
   decideMovement() {
@@ -113,7 +128,6 @@ class Bot {
     //TODO: init move on keymap so it goes there (calc needed x)
 
     while (this.TempBall.x > 20 && this.TempBall.x < 280 && rightDir) {
-      this.y = playerRight.y;
       this.stopMoveDown();
       this.stopMoveUp();
       if (TempDirection.x < 0) {
@@ -136,11 +150,10 @@ class Bot {
     if (this.TempBall.x < 270) {
       this.TempBall.x = 0;
     } else {
-      if (this.y+this.height/2 > this.TempBall.y) {
-        console.log('true');
+      if (this.side.y+this.side.height/2 > this.TempBall.y) {
         this.stopMoveDown();
         this.startMoveUp();
-      } else if (this.y+this.height-this.height/2 < this.TempBall.y) {
+      } else if (this.side.y+this.side.height/2 < this.TempBall.y) {
         this.stopMoveUp();
         this.startMoveDown();
       }
@@ -148,16 +161,16 @@ class Bot {
   }
 
   startMoveDown() {
-    keyMap["BotMoveDown"] = true;
+    this.keyMap["BotMoveDown"] = true;
   }
   stopMoveDown() {
-    keyMap["BotMoveDown"] = false;
+    this.keyMap["BotMoveDown"] = false;
   }
   startMoveUp() {
-    keyMap["BotMoveUp"] = true;
+    this.keyMap["BotMoveUp"] = true;
   }
   stopMoveUp() {
-    keyMap["BotMoveUp"] = false;
+    this.keyMap["BotMoveUp"] = false;
   }
 }
 
@@ -204,6 +217,7 @@ function drawUtil() {
 
 function move() {
   // S 83, W 87, arrowDown 40,  arrowUp 38
+  bot.move();
   if (keyMap["s"]) {
     playerLeft.y += 3;
     if (playerLeft.y + playerLeft.height > canvas.height) {
@@ -217,13 +231,13 @@ function move() {
     }
   }
 
-  if (keyMap["BotMoveUp"] || keyMap['ArrowUp']) {
+  if (keyMap["BotMoveUp"]) {
     playerRight.y -= 3;
     if (playerRight.y < 0) {
       playerRight.y += 3;
     }
   }
-  if (keyMap["BotMoveDown"] || keyMap['ArrowDown']) {
+  if (keyMap["BotMoveDown"]) {
     playerRight.y += 3;
     if (playerRight.y + playerRight.height > canvas.height) {
       playerRight.y -= 3;
