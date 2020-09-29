@@ -29,7 +29,7 @@ function init() {
   ball = new Circle(150, 65, 2, "white", "white", 0);
   ball.draw();
 
-  playerRight = new Rectangle(280, 50, 10, 30, "white", 0);
+  playerRight = new Rectangle(280, 50, 10, 20, "white", 0);
   playerRight.draw();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -107,16 +107,17 @@ class Bot {
   }
 
   move() {
+    const MOVE_SPEED = 1;
     if (this.keyMap["BotMoveUp"]) {
-      this.side.y -= 3;
+      this.side.y -= MOVE_SPEED;
       if (this.side.y < 0) {
-        this.side.y += 3;
+        this.side.y += MOVE_SPEED;
       }
     }
     if (this.keyMap["BotMoveDown"]) {
-      this.side.y += 3;
+      this.side.y += MOVE_SPEED;
       if (this.side.y + this.side.height > canvas.height) {
-        this.side.y -= 3;
+        this.side.y -= MOVE_SPEED;
       }
     }
   }
@@ -219,30 +220,18 @@ function move() {
   // S 83, W 87, arrowDown 40,  arrowUp 38
   bot.move();
   if (keyMap["s"]) {
-    playerLeft.y += 3;
+    playerLeft.y += 4;
     if (playerLeft.y + playerLeft.height > canvas.height) {
-      playerLeft.y -= 3;
+      playerLeft.y -= 4;
     }
   }
   if (keyMap["w"]) {
-    playerLeft.y -= 3;
+    playerLeft.y -= 4;
     if (playerLeft.y < 0) {
-      playerLeft.y += 3;
+      playerLeft.y += 4;
     }
   }
 
-  if (keyMap["BotMoveUp"]) {
-    playerRight.y -= 3;
-    if (playerRight.y < 0) {
-      playerRight.y += 3;
-    }
-  }
-  if (keyMap["BotMoveDown"]) {
-    playerRight.y += 3;
-    if (playerRight.y + playerRight.height > canvas.height) {
-      playerRight.y -= 3;
-    }
-  }
 }
 
 document.addEventListener("keydown", (event) => {
