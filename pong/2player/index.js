@@ -2,7 +2,8 @@ let canvas, ctx;
 let playerLeft, playerRight, ball;
 const GAME_SPEED = 75;
 let lastRenderTime = 0;
-let direction = { x: 1, y: 2 };
+const BALL_SPEED = 3;
+let direction = { x: BALL_SPEED, y: BALL_SPEED };
 let keyMap = [];
 let ScoreLeft = 0,
   ScoreRight = 0;
@@ -10,6 +11,17 @@ let ScoreLeft = 0,
 function init() {
   canvas = document.getElementById("gameBoard");
   ctx = canvas.getContext("2d");
+
+  let Time = 4;
+
+  ctx.font = "50px Arial Gray";
+  ctx.fillText(`${Time}`, canvas.width / 2 - 12, canvas.height / 2 - 25);
+
+  let intevalCountDown = setInterval(function () {
+    Time--;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillText(`${Time}`, canvas.width / 2 - 12, canvas.height / 2 - 25);
+  }, 1000);
 
   playerLeft = new Rectangle(10, 50, 10, 30, "white", 0);
   playerLeft.draw();
@@ -19,8 +31,12 @@ function init() {
 
   playerRight = new Rectangle(280, 50, 10, 30, "white", 0);
   playerRight.draw();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  gameLoop();
+  setTimeout(function () {
+    clearInterval(intevalCountDown);
+    gameLoop();
+  }, 4000);
 }
 
 function gameLoop(currentTime) {
@@ -41,8 +57,6 @@ function update() {
   playerLeft.draw();
   playerRight.draw();
 
-  drawUtil();
-
   ball.x += direction.x;
   ball.y += direction.y;
 
@@ -62,14 +76,48 @@ function update() {
   }
 
   if (ball.x + ball.r < 0 || ball.x + ball.r > canvas.width) {
-    alert("One Point");
+    if (ball.x + ball.r < 0) {
+      ScoreRight++;
+    } else {
+      ScoreLeft++;
+    }
 
-    ball.x = canvas.width/2;
-    ball.y = canvas.height/2;
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+
+    playerLeft.y = canvas.height / 2 - playerLeft.height / 2;
+    playerRight.y = canvas.height / 2 - playerRight.height / 2;
   }
+
+  drawUtil();
+  checkForWin();
 
   ball.draw();
   //console.log(RectCircleColliding(ball, playerRight));
+}
+
+function checkForWin() {
+  if (ScoreLeft >= 10) {
+    if (
+      confirm(
+        "Left player won!. Press ok to restart and cancle to go to the main page"
+      )
+    ) {
+      ScoreLeft = 0;
+      ScoreRight = 0;
+      location.reload();
+    }
+  } else if (ScoreRight >= 10) {
+    if (
+      confirm(
+        "Right player won!. Press ok to restart and cancle to go to the main page"
+      )
+    ) {
+      ScoreLeft = 0;
+      ScoreRight = 0;
+      location.reload();
+    }
+  }
 }
 
 function drawUtil() {
@@ -83,6 +131,10 @@ function drawUtil() {
   ctx.stroke();
 
   ctx.restore();
+
+  ctx.font = "15px Arial White";
+  ctx.fillText(ScoreLeft, canvas.width / 4, 15);
+  ctx.fillText(ScoreRight, (canvas.width / 4) * 3, 15);
 }
 
 function move() {
