@@ -7,6 +7,11 @@ let direction = { x: BALL_SPEED, y: BALL_SPEED };
 let keyMap = [];
 let ScoreLeft = 0,
   ScoreRight = 0;
+const HIT_SOUND = new Audio("../soundFX/Hit.wav");
+HIT_SOUND.volume = 0.5;
+
+const WIN_SOUND = new Audio('../soundFX/Powerup.wav');
+WIN_SOUND.volume = 0.5;
 
 function init() {
   canvas = document.getElementById("gameBoard");
@@ -64,11 +69,64 @@ function update() {
     RectCircleColliding(ball, playerRight) ||
     RectCircleColliding(ball, playerLeft)
   ) {
+    HIT_SOUND.pause();
+    HIT_SOUND.currentTime = 0;
+    HIT_SOUND.play();
+    if (keyMap["s"]) {
+      if (direction.y > 0 && direction.y <= 4) {
+        direction.y++;
+        if (direction.x > 0) {
+          direction.x--;
+        } else {
+          direction.x++;
+        }
+      } else if (direction.y < 0 && direction.y >= -4) {
+        direction.y--;
+        if (direction.x > 0) {
+          direction.x--;
+        } else {
+          direction.x++;
+        }
+      }
+    } else if (keyMap["w"]) {
+      if (direction.y > 0 && direction.y <= 4) {
+        direction.y--;
+        if (direction.x > 0) {
+          direction.x++;
+        } else {
+          direction.x--;
+        }
+      } else if (direction.y < 0 && direction.y >= -4) {
+        direction.y++;
+        if (direction.x > 0) {
+          direction.x++;
+        } else {
+          direction.x--;
+        }
+      }
+    }
+
+    if (direction.y > 4) {
+      direction.y--;
+    } else if (direction.y < -4) {
+      direction.y++;
+    }
+
+    if (direction.x == 1) {
+      direction.x++;
+    } else if (direction.x == -1) {
+      direction.x--;
+    }
+
     direction.x = direction.x * -1;
 
     ball.x += direction.x * 2;
     ball.y += direction.y * 2;
   } else if (ball.y + ball.r < 0 || ball.y + ball.r > canvas.height) {
+    HIT_SOUND.pause();
+    HIT_SOUND.currentTime = 0;
+    HIT_SOUND.play();
+
     direction.y = direction.y * -1;
 
     ball.x += direction.x * 2;
@@ -81,6 +139,12 @@ function update() {
     } else {
       ScoreLeft++;
     }
+
+    WIN_SOUND.pause();
+    WIN_SOUND.currentTime = 0;
+    WIN_SOUND.play();
+
+    direction = { x: BALL_SPEED, y: BALL_SPEED}
 
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
