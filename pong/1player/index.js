@@ -71,6 +71,9 @@ function update() {
   ball.x += direction.x;
   ball.y += direction.y;
   if (RectCircleColliding(ball, playerRight)) {
+    HIT_SOUND.pause();
+    HIT_SOUND.currentTime = 0;
+    HIT_SOUND.play();
     direction.x = direction.x * -1;
 
     ball.x += direction.x * 2;
