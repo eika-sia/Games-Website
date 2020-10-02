@@ -70,9 +70,12 @@ function update() {
 
   ball.x += direction.x;
   ball.y += direction.y;
+  if (RectCircleColliding(ball, playerRight)) {
+    direction.x = direction.x * -1;
 
-  if (
-    RectCircleColliding(ball, playerRight) ||
+    ball.x += direction.x * 2;
+    ball.y += direction.y * 2;
+  } else if (
     RectCircleColliding(ball, playerLeft)
   ) {
     HIT_SOUND.pause();
