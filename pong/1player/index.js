@@ -7,13 +7,13 @@ let direction = { x: BALL_SPEED, y: BALL_SPEED };
 let keyMap = [];
 let ScoreLeft = 0,
   ScoreRight = 0;
-const HIT_SOUND = new Audio('../soundFX/HtiV2.wav');
+const HIT_SOUND = new Audio("../soundFX/HtiV2.wav");
 HIT_SOUND.volume = 0.5;
 
-const WIN_SOUND = new Audio('../soundFX/Powerup2.wav');
+const WIN_SOUND = new Audio("../soundFX/Powerup2.wav");
 WIN_SOUND.volume = 0.5;
 
-const LOOSE_SOUND = new Audio('');
+const LOOSE_SOUND = new Audio("");
 
 function init() {
   canvas = document.getElementById("gameBoard");
@@ -79,7 +79,7 @@ function update() {
     HIT_SOUND.currentTime = 0;
     HIT_SOUND.play();
     if (keyMap["s"]) {
-      if (direction.y > 0 && direction.y <= 4) {
+      if (direction.y >= 0 && direction.y <= 4) {
         direction.y++;
         if (direction.x > 0) {
           direction.x--;
@@ -95,7 +95,7 @@ function update() {
         }
       }
     } else if (keyMap["w"]) {
-      if (direction.y > 0 && direction.y <= 4) {
+      if (direction.y >= 0 && direction.y <= 4) {
         direction.y--;
         if (direction.x > 0) {
           direction.x++;
@@ -118,7 +118,7 @@ function update() {
       direction.y++;
     }
 
-    if(direction.x == 1) {
+    if (direction.x == 1) {
       direction.x++;
     } else if (direction.x == -1) {
       direction.x--;
@@ -150,7 +150,7 @@ function update() {
     WIN_SOUND.currentTime = 0;
     WIN_SOUND.play();
 
-    direction = { x: BALL_SPEED, y: BALL_SPEED}
+    direction = { x: BALL_SPEED, y: BALL_SPEED };
 
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
@@ -190,8 +190,40 @@ class Bot {
   decideMovement() {
     this.TempBall = { ...ball };
     let TempDirection = { ...direction };
+
+    let TempBalls = [{ ...ball }, { ...ball }, { ...ball }];
+    let TempDirections = [{ ...direction }, { ...direction }, { ...direction }];
     let rightDir = true;
-    //TODO: init move on keymap so it goes there (calc needed x)
+
+    if (direction.y < 0) {
+      TempDirections[0].y = -4;
+      TempDirections[1].y = -3;
+      TempDirections[2].y = -2;
+      if (direction.x > 0) {
+        TempDirections[0].x = 2;
+        TempDirections[1].x = 3;
+        TempDirections[2].x = 4;
+      } else if (direction.x > 0) {
+        TempDirections[0].x = -2;
+        TempDirections[1].x = -3;
+        TempDirections[2].x = -4;
+      }
+    } else if (direction.y > 0) {
+      TempDirections[0].y = 4;
+      TempDirections[1].y = 3;
+      TempDirections[2].y = 2;
+      if (direction.x > 0) {
+        TempDirections[0].x = 2;
+        TempDirections[1].x = 3;
+        TempDirections[2].x = 4;
+      } else if (direction.x > 0) {
+        TempDirections[0].x = -2;
+        TempDirections[1].x = -3;
+        TempDirections[2].x = -4;
+      }
+    }
+
+    console.log(TempDirections);
 
     while (this.TempBall.x > 20 && this.TempBall.x < 280 && rightDir) {
       this.stopMoveDown();
@@ -433,26 +465,6 @@ class Circle {
   draw() {
     // destructuring
     const { x, y, radius, fillColor, strokeColor, strokeWidth } = this;
-
-    ctx.save();
-
-    ctx.fillStyle = fillColor;
-    ctx.lineWidth = strokeWidth;
-
-    ctx.beginPath();
-    ctx.strokeStyle = strokeColor;
-    ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.restore();
-  }
-  move({ xNew, yNew }) {
-    const { x, y, radius, fillColor, strokeColor, strokeWidth } = this;
-
-    this.fillColor = "black";
-    this.strokeColor = "black";
 
     ctx.save();
 
