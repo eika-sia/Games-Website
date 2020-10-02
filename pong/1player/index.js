@@ -7,13 +7,13 @@ let direction = { x: BALL_SPEED, y: BALL_SPEED };
 let keyMap = [];
 let ScoreLeft = 0,
   ScoreRight = 0;
-const HIT_SOUND = new Audio("../soundFX/HtiV2.wav");
+const HIT_SOUND = new Audio('../soundFX/HtiV2.wav');
 HIT_SOUND.volume = 0.5;
 
-const WIN_SOUND = new Audio("../soundFX/Powerup2.wav");
+const WIN_SOUND = new Audio('../soundFX/Powerup2.wav');
 WIN_SOUND.volume = 0.5;
 
-const LOOSE_SOUND = new Audio("");
+const LOOSE_SOUND = new Audio('');
 
 function init() {
   canvas = document.getElementById("gameBoard");
