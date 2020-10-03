@@ -1,0 +1,55 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background-color: black;
+  overflow: hidden;
+}
+
+#GameBoard {
+  position: center;
+  background-color: #CCC;
+  width: 40vmin;
+  height: 96vmin;
+  display: grid;
+  grid-template-rows: repeat(24, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.IPiece {
+  background-color: lightskyblue;
+  border: .25vmin solid black;
+}
+
+.JPiece {
+  background-color: salmon;
+  border: .25vmin solid black;
+}
+
+.LPiece {
+  background-color: lightgreen;
+  border: .25vmin solid black;
+}
+
+.TPiece {
+  background-color: plum;
+  border: .25vmin solid black;
+}
+
+.SPiece {
+  background-color: burlywood;
+  border: .25vmin solid black;
+}
+
+.ZPiece {
+  background-color: goldenrod;
+  border: .25vmin solid black;
+}
+
+.OPiece {
+  background-color: olivedrab;
+  border: .25vmin solid black;
+}

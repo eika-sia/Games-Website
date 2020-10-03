@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="checkbox" id="AlpNum" />Alpha-numericals only<br />
+    Number of characters: <input id="NOfChar" /> <br />
+    <input type="submit" onclick="generate()" /> <br />
+    <button onclick="copyText()">Copy text</button> <br />
+    <div id="textArea"></div>
+
+    <script>
+      function generate() {
+        let PassWord = "";
+        const AlpNum = document.getElementById("AlpNum");
+        const NOfChar = document.getElementById("NOfChar");
+
+        if (AlpNum.checked) {
+          for (i = 0; i < NOfChar.value; ) {
+            let stringTester = /^[0-9a-zA-Z]+$/;
+            let TempString = String.fromCharCode(
+              Math.floor(Math.random() * 92) + 33
+            );
+
+            if (TempString.match(stringTester)) {
+              PassWord += TempString;
+              i++;
+            }
+          }
+        } else {
+          for (i = 0; i < NOfChar.value; i++) {
+            PassWord += String.fromCharCode(
+              Math.floor(Math.random() * 92) + 33
+            );
+          }
+        }
+
+        document.getElementById("textArea").innerHTML = PassWord;
+      }
+
+      function copyText() {
+        let copyText = document.getElementById("textArea");
+
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+
+        document.execCommand("copy");
+      }
+    </script>
+    <style>
+      body {
+        overflow: hidden;
+      }
+    </style>
+  </body>
+</html>
