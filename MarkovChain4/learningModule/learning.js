@@ -5,37 +5,22 @@ fs.readFile("../prefixSuffix.json", (err, data) => {
 
   fs.readFile("../trainingTexts/alice_oz.txt", (err, textData) => {
     fs.readFile(
-      "../trainingTexts/Harry Potter and the Sorcerer.txt",
+      "../trainingTexts/SH.txt",
       (err2, textData2) => {
         fs.readFile("../trainingTexts/lotr.txt", (err3, textData3) => {
-          let textArray3 = textData.toString().split(" ");
+          let textArray1 = textData.toString().split(" ");
+
           let textArray2 = textData2.toString().split(" ");
-          let textArray4 = textData3.toString().split(" ");
+          let textArray3 = textData3.toString().split(" ");
 
-          let textArray5 = textArray2.concat(textArray3);
-          let textArray = textArray5.concat(textArray4);
+          let textArray5 = textArray2.concat(textArray1);
+          let textArray = textArray5.concat(textArray3);
 
-          for (i = 0; i < textArray.length; i++) {
+          for (i = 0; i < textArray.length; i += 2) {
             let WordPair = {
               prefix: `${textArray[i]} ${textArray[i + 1]}`,
               suffix: `${textArray[i + 2]}`,
             };
-
-            let punctuation = '"#$*+-/:<=>@[\\]^_`{|}~\n\r';
-
-            let rawLetters = WordPair.prefix.split("");
-            let cleanLetters = rawLetters.filter(function (letter) {
-              return punctuation.indexOf(letter) === -1;
-            });
-
-            WordPair.prefix = cleanLetters.join("");
-
-            let rawLetters2 = WordPair.suffix.split("");
-            let cleanLetters2 = rawLetters2.filter(function (letter) {
-              return punctuation.indexOf(letter) === -1;
-            });
-
-            WordPair.suffix = cleanLetters2.join("");
 
             let Repped = false;
             for (j = 0; j < PairArray.length; j++) {

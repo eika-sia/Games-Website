@@ -35,8 +35,6 @@ function start() {
             pairArray[j].suffix = "";
           }
           StringGen.push(pairArray[j].suffix);
-          pairArray.splice(j, 1);
-          j = pairArray.length;
         }
       }
     }
