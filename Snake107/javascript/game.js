@@ -1,6 +1,74 @@
 let lastRenderTime = 0;
 let gameOver = false;
 const gameBoard = document.getElementById("gameBoard");
+startup();
+//? Mobile support for movement
+function startup() {
+  document.addEventListener("touchstart", handleTouchStart, false);
+  document.addEventListener("touchmove", handleTouchMove, false);
+}
+
+var xDown = null;
+var yDown = null;
+
+function getTouches(evt) {
+  return (
+    evt.touches || // browser API
+    evt.originalEvent.touches
+  ); // jQuery
+}
+
+function handleTouchEnd(evt) {
+  keyMap["w"] = false;
+  keyMap["s"] = false;
+}
+
+function handleTouchStart(evt) {
+  const firstTouch = getTouches(evt)[0];
+  xDown = firstTouch.clientX;
+  yDown = firstTouch.clientY;
+}
+
+function handleTouchMove(evt) {
+  if (!xDown || !yDown) {
+    return;
+  }
+
+  var xUp = evt.touches[0].clientX;
+  var yUp = evt.touches[0].clientY;
+
+  var xDiff = xDown - xUp;
+  var yDiff = yDown - yUp;
+
+  if (Math.abs(xDiff) > Math.abs(yDiff)) {
+    /*most significant*/
+    if (xDiff > 0) {
+      if (lastInput.x !== 0) return;
+      inputDirection = { x: -1, y: 0 };
+      return;
+    } else {
+      if (lastInput.x !== 0) return;
+      inputDirection = { x: 1, y: 0 };
+      return;
+    }
+  } else if (Math.abs(xDiff) < Math.abs(yDiff)) {
+    if (yDiff > 0) {
+      if (lastInput.y !== 0) return;
+      inputDirection = { x: 0, y: -1 };
+      return;
+    } else {
+      if (lastInput.y !== 0) return;
+      inputDirection = { x: 0, y: 1 };
+      return;
+    }
+  } else {
+    keyMap["w"] = false;
+    keyMap["s"] = false;
+  }
+  /* reset values */
+  xDown = null;
+  yDown = null;
+}
 
 function main(currentTime) {
   if (gameOver) {
