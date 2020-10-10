@@ -56,6 +56,7 @@ function init() {
 function startup() {
   document.addEventListener("touchstart", handleTouchStart, false);
   document.addEventListener("touchmove", handleTouchMove, false);
+  document.addEventListener("touchend", handleTouchEnd, false);
 }
 
 var xDown = null;
@@ -66,6 +67,11 @@ function getTouches(evt) {
     evt.touches || // browser API
     evt.originalEvent.touches
   ); // jQuery
+}
+
+function handleTouchEnd(evt) {
+  keyMap["w"] = false;
+  keyMap["s"] = false;
 }
 
 function handleTouchStart(evt) {
