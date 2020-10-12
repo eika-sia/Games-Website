@@ -1,10 +1,8 @@
-let Opiece, Ipiece, Tpiece, Lpiece, Jpiece, Spiece, Zpiece;
-
 const gameBoard = document.getElementById("GameBoard");
 
-Opiece = {
-  class: "OPiece",
-  positions: {
+class Opiece {
+  class = "OPiece";
+  positions = {
     turn0: [
       [0, -1],
       [-1, -1],
@@ -25,12 +23,12 @@ Opiece = {
       [-1, -1],
       [-1, 0],
     ],
-  },
-  PivotPos: [2, 6],
+  }
+  PivotPos = [2, 6];
 };
-Ipiece = {
-  class: "IPiece",
-  positions: {
+class Ipiece {
+  class = "IPiece";
+  positions = {
     turn0: [
       [0, -2],
       [0, -1],
@@ -51,12 +49,12 @@ Ipiece = {
       [-1, 0],
       [-2, 0],
     ],
-  },
-  PivotPos: [2, 6],
+  }
+  PivotPos = [2, 6];
 };
-Zpiece = {
-  class: "ZPiece",
-  positions: {
+class Zpiece {
+  class = "ZPiece"
+  positions = {
     turn0: [
       [0, -1],
       [-1, 0],
@@ -77,12 +75,12 @@ Zpiece = {
       [1, 0],
       [1, 1],
     ],
-  },
-  PivotPos: [2, 6],
+  }
+  PivotPos = [2, 6];
 };
-Spiece = {
-  class: "SPiece",
-  positions: {
+class Spiece {
+  class = "SPiece"
+  positions = {
     turn0: [
       [0, -1],
       [1, 0],
@@ -103,12 +101,12 @@ Spiece = {
       [0, 1],
       [1, -1],
     ],
-  },
-  PivotPos: [2, 6],
+  }
+  PivotPos = [2, 6]
 };
-Jpiece = {
-  class: "JPiece",
-  positions: {
+class Jpiece {
+  class = "JPiece";
+  positions = {
     turn0: [
       [-1, 0],
       [1, -1],
@@ -129,12 +127,12 @@ Jpiece = {
       [0, -1],
       [0, 1],
     ],
-  },
-  PivotPos: [2, 6],
+  };
+  PivotPos = [2, 6]; 
 };
-Lpiece = {
-  class: "LPiece",
-  positions: {
+class Lpiece {
+  class = "LPiece";
+  positions = {
     turn0: [
       [-1, 0],
       [1, 0],
@@ -155,12 +153,12 @@ Lpiece = {
       [0, -1],
       [-1, 1],
     ],
-  },
-  PivotPos: [2, 6],
-};
-Tpiece = {
-  class: "TPiece",
-  positions: {
+  };
+  PivotPos = [2, 6];
+}
+class Tpiece {
+  class = "TPiece";
+  positions = {
     turn0: [
       [0, -1],
       [1, 0],
@@ -181,11 +179,11 @@ Tpiece = {
       [0, -1],
       [-1, 0],
     ],
-  },
-  PivotPos: [2, 6],
-};
+  };
+  PivotPos = [2, 6];
+}
 
-const Blocks = [Ipiece, Opiece, Tpiece, Spiece, Zpiece, Lpiece, Jpiece];
+const Blocks = [new Ipiece, new Opiece, new Tpiece, new Spiece, new Zpiece, new Lpiece, new Jpiece];
 let BlocksDroped = [[5, -1]],
   currentBlock,
   rotation = 0;
@@ -208,7 +206,7 @@ function GameLoop(currentTime) {
 function update() {
   if (currentBlock == null) {
     let index = Math.floor(Math.random() * (Blocks.length - 1));
-    currentBlock = { ...Blocks[index] };
+    currentBlock = Blocks[index];
   }
 }
 
@@ -216,7 +214,8 @@ function draw() {
   gameBoard.innerHTML = "";
 
   for (let i = 0; i < currentBlock.positions.turn0.length; i++) {
-    let TempObj = { ...currentBlock }, TempPos;
+    let TempObj = { ...currentBlock },
+      TempPos = [];
 
     if (rotation == 0) {
       TempPos = TempObj.positions.turn0;
@@ -228,27 +227,20 @@ function draw() {
       TempPos = TempObj.positions.turn3;
     }
 
+    TempPos.map((x) => x.slice());
+
     for (let j = 0; j < TempPos.length; j++) {
-      console.log(currentBlock);
       TempPos[j][0] += TempObj.PivotPos[0];
       TempPos[j][1] += TempObj.PivotPos[1];
     }
 
     for (let j = 0; j < TempPos.length; j++) {
-      const TempBlock = document.createElement("div");
+      console.log(TempPos[j]);
+      let TempBlock = document.createElement("div");
       TempBlock.style.gridRowStart = TempPos[j][1];
       TempBlock.style.gridColumnStart = TempPos[j][0];
       TempBlock.classList.add("IPiece");
       gameBoard.appendChild(TempBlock);
     }
-  }
-
-  for (let i = 0; i < BlocksDroped.length; i++) {
-    let TempPos = BlocksDroped[i];
-    const TempBlock = document.createElement("div");
-    TempBlock.style.gridRowStart = TempPos[1];
-    TempBlock.style.gridColumnStart = TempPos[0];
-    TempBlock.classList.add("IPiece");
-    gameBoard.appendChild(TempBlock);
   }
 }

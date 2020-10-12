@@ -4,6 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="./index.js" defer></script>
+    <link rel="stylesheet" href="./index.css" />
   </head>
-  <body></body>
+  <body>
+    <button onClick="confTask()">Add a new task</button>
+    <div class="NonVisable" id="setUpTask">
+      <input
+        type="text"
+        id="TitleInput"
+        value="Title"
+        onmousedown="removeText('TitleInput')"
+      /><br />
+      <input
+        type="text"
+        id="descInput"
+        value="Description"
+        onmousedown="removeText('descInput')"
+        height="2rem"
+        width="3rem"
+      /> <br>
+      <input type="date" id="dateInput" />
+
+      <button onclick="addTask()">Confirm</button>
+    </div>
+    <div id="taskList"></div>
+  </body>
 </html>
