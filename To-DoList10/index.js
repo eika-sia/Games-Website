@@ -8,17 +8,13 @@ let Tasks = [];
 let NOfTasks = 0;
 
 function addTask() {
-  messageBoard.innerHTML = "";
-
-  NOfTasks++;
-
   Tasks.push({
     title: document.getElementById("TitleInput").value,
     desc: document.getElementById("descInput").value,
     time: document.getElementById("dateInput").value,
   });
 
-  for (let i = 0; i < NOfTasks; i++) {
+
     let TempElem = document.createElement("div");
 
     TempElem.classList.add("elem");
@@ -31,7 +27,7 @@ function addTask() {
     TempElem.appendChild(TempButton);
 
     messageBoard.appendChild(TempElem);
-  }
+  
 
   confNewTasks.classList.add("NonVisable");
   document.getElementById("TitleInput").value = "Title";
