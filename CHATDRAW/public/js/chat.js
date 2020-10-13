@@ -18,7 +18,7 @@ function setup() {
     crap.position(0,60);
     background(51);
     //server connected
-    socket=io.connect('http://localhost:3000')
+    socket=io.connect('https://chatappwithdrawing.herokuapp.com/')
     socket.on('mouse',newDrawing);
   }
   function newDrawing(data){
