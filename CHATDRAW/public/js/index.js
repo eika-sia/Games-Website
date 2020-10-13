@@ -146,7 +146,7 @@ function pdf(){
 
 // Make connection
 //to local an dmake it process.env.PORT to deploy
-    var socket = io.connect('http://localhost:4000');
+    var socket = io.connect('https://chatappwithdrawing.herokuapp.com/');
     
     
 // Query DOM
