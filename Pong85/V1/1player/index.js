@@ -294,8 +294,6 @@ class Bot {
       }
     }
 
-    console.log(TempDirections);
-
     while (this.TempBall.x > 20 && this.TempBall.x < 280 && rightDir) {
       this.stopMoveDown();
       this.stopMoveUp();
@@ -353,6 +351,9 @@ function checkForWin() {
       ScoreLeft = 0;
       ScoreRight = 0;
       location.reload();
+    } else {
+      console.log("Works!")
+      window.location = "../../../HomePage.html";
     }
   } else if (ScoreRight >= 10) {
     if (
@@ -363,6 +364,9 @@ function checkForWin() {
       ScoreLeft = 0;
       ScoreRight = 0;
       location.reload();
+    } else {
+      console.log("Works!")
+      window.location = "../index.html"
     }
   }
 }
