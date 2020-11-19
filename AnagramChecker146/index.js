@@ -10,13 +10,13 @@ function check() {
       letters1.pop();
       i--;
     }
-}
-for (int i = 0; i < letters2.lenght; i++) {
+  }
+  for (int i = 0; i < letters2.lenght; i++) {
     if (letters2[i] == " ") {
       letters2.pop();
       i--;
     }
-}
+  }
 
   letters1 = sort(letters1);
   letters2 = sort(letters2);
