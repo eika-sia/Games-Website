@@ -7,13 +7,13 @@ function check() {
   
   for (let i = 0; i < letters1.lenght; i++) {
     if (letters1[i] == " ") {
-      letters1.pop();
+      letters1.splice(i);
       i--;
     }
   }
   for (let i = 0; i < letters2.lenght; i++) {
     if (letters2[i] == " ") {
-      letters2.pop();
+      letters2.splice(i);
       i--;
     }
   }
