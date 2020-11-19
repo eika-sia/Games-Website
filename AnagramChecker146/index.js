@@ -1,19 +1,22 @@
 function check() {
-  const word1 = document.getElementById("word1");
-  const word2 = document.getElementById("word2");
+  let word1 = document.getElementById("word1");
+  let word2 = document.getElementById("word2");
 
-  let letters1 = word1.value.split("");
-  let letters2 = word2.value.split("");
-  
-  for (let i = 0; i < letters1.lenght; i++) {
+  word1 = word1.value.toLowerCase();
+  word2 = word2.value.toLowerCase();
+
+  let letters1 = word1.split("");
+  let letters2 = word2.split("");
+
+  for (let i = 0; i < letters1.length; i++) {
     if (letters1[i] == " ") {
-      letters1.splice(i);
+      letters1.splice(i, 1);
       i--;
     }
   }
-  for (let i = 0; i < letters2.lenght; i++) {
+  for (let i = 0; i < letters2.length; i++) {
     if (letters2[i] == " ") {
-      letters2.splice(i);
+      letters2.splice(i, 1);
       i--;
     }
   }
