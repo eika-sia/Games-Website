@@ -4,6 +4,19 @@ function check() {
 
   let letters1 = word1.value.split("");
   let letters2 = word2.value.split("");
+  
+  for (int i = 0; i < letters1.lenght; i++;) {
+    if (letters1[i] == " ") {
+      letters1.pop();
+      i--;
+    }
+}
+for (int i = 0; i < letters2.lenght; i++;) {
+    if (letters2[i] == " ") {
+      letters2.pop();
+      i--;
+    }
+}
 
   letters1 = sort(letters1);
   letters2 = sort(letters2);
