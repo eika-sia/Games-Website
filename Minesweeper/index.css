@@ -1,0 +1,36 @@
+BODY {
+  background: black;
+  color: #DDDDDD;
+  font-family: courier new;
+  text-align: center;
+}
+
+H1 {
+  text-align: center;
+  font-size: 14pt;
+  font-weight: normal;
+}
+#grid {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#grid TR TD{
+  border:1px solid white;
+  background: #999999;
+  width: 3vmin;
+  height: 3vmin;
+  text-align: center;
+}
+
+#grid TR TD.clicked {
+    background: #333333;
+}
+
+#grid TR TD.mine {
+    background: #FF0000;
+}
+
+BUTTON {
+  margin: 12px;
+}
